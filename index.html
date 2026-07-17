@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        const BASE_URL = "http://localhost:8081/student";
+        const API_KEY = "STUDENT123";
+        function createStudent() {
+            let id = document.getElementById("id").value;
+            let name = document.getElementById("name").value;
+            fetch(`${BASE_URL}?id=${id}&name=${encodeURIComponent(name)}`, {
+                method: "POST",
+                headers: {
+                    "X-API-KEY": API_KEY
+                }
+            })
+            .then(res => res.text())
+            .then(data => document.getElementById("output").innerText = data)
+            .catch(err => alert(err));
+        }
+        function displayStudents() {
+            fetch(BASE_URL, {
+                method: "GET",
+                headers: {
+                    "X-API-KEY": API_KEY
+                }
+            })
+            .then(res => res.text())
+            .then(data => document.getElementById("output").innerText = data)
+            .catch(err => alert(err));
+        }
+        function updateStudent() {
+            let id = document.getElementById("id").value;
+            let name = document.getElementById("name").value;
+            fetch(`${BASE_URL}?id=${id}&name=${encodeURIComponent(name)}`, {
+                method: "PUT",
+                headers: {
+                    "X-API-KEY": API_KEY
+                }
+            })
+            .then(res => res.text())
+            .then(data => document.getElementById("output").innerText = data)
+            .catch(err => alert(err));
+        }
+        function deleteStudent() {
+            let id = document.getElementById("id").value;
+            fetch(`${BASE_URL}?id=${id}`, {
+                method: "DELETE",
+                headers: {
+                    "X-API-KEY": API_KEY
+                }
+            })
+            .then(res => res.text())
+            .then(data => document.getElementById("output").innerText = data)
+            .catch(err => alert(err));
+        }
+        function clearFields() {
+            document.getElementById("id").value = "";
+            document.getElementById("name").value = "";
+            document.getElementById("output").innerText = "No Data";
+        }
+    </script>
+</head>
+<body>
+    <h1>Student Management System</h1>
+    <div class="form">
+        <label>Student ID</label>
+        <input type="number" id="id" placeholder="Enter Student ID">
+        <label>Student Name</label>
+        <input type="text" id="name" placeholder="Enter Student Name">
+        <div class="buttons">
+            <button onclick="createStudent()">CREATE</button>
+            <button onclick="displayStudents()">DISPLAY</button>
+            <button onclick="updateStudent()">UPDATE</button>
+            <button onclick="deleteStudent()">DELETE</button>
+            <button onclick="clearFields()">CLEAR</button>
+        </div>
+    </div>
+    <hr>
+    <h2>Server Response</h2>
+    <pre id="output">No Data</pre>
+</body>
+</html>
